@@ -30,6 +30,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'ledermann-rails-settings'
 gem 'sidekiq'
 gem 'web-console', group: :development
+gem 'font-awesome-rails'
+gem 'adminlte-rails'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem "better_errors"

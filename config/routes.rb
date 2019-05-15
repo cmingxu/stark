@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   post 'session/create', as: :login
   delete 'session/destroy', as: :logout
   get 'welcome/index', as: :dashboard
+
+  root 'welcome#index'
 end
