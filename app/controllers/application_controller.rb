@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
 
   attr_accessor :page_request_meta_info
   before_action :set_page_request_meta_info
-  before_action :set_backend, :initialize_k8_client
 
   protect_from_forgery with: :exception
   before_action :login_required
@@ -129,52 +128,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def owner_from_request
-    params[:owner_type] == "group" ? current_user.groups.find(params[:owner_id]) : nil
-  end
-
-  def audit(entity, action, change = "")
-    a = Audit.new
-    a.entity = entity
-    a.user = current_user
-    a.change = change
-    a.action = action
-    a.save
-  end
-
-  def set_backend
-    case Site.default.backend_option
-    when "swan"
-      require 'swan'
-      Swan.url = Site.default.swan_addrs
-    when "marathon"
-      require 'marathon'
-      Marathon.options = {:username => Site.default.marathon_username, :password => Site.default.marathon_password}
-      Marathon.url = Site.default.marathon_addrs
-    when "k8s"
-    end
-  end
-
-  def graphna_path
-    Site.default.graphna_addr + "/dashboard-solo/db/"
-    #"https://admin@changem@graphna.hengdingsheng.com" + "/dashboard-solo/db/"
-  end
-
   def breadcrumb_list
     (@breadcrumb_list || []).unshift OpenStruct.new(name_zh_cn: "首页", name_en: "Home", path: root_path)
   end
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-  def initialize_k8_client
-    config = Kubeclient::Config.read('/Users/kevinxu/.kube/config')
-    @k8client = Kubeclient::Client.new(
-      config.context.api_endpoint,
-      config.context.api_version,
-      { ssl_options: config.context.ssl_options,
-      auth_options: config.context.auth_options }
-    )
-  end
 
   private
   def user_not_authorized

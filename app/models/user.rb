@@ -26,8 +26,6 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true
 
-  mount_uploader :icon, UserIconUploader
-
   def update_password(pass)
     self.salt = SecureRandom.hex
     self.encrypted_password = entrypt_password(pass)
