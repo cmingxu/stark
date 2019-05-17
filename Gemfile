@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 gem 'friendly_id', '~> 5.1'
 gem 'annotate'
+gem 'webpacker', '~> 4.0.2'
 gem 'kaminari'
 gem 'carrierwave', '~> 1.0'
 gem 'simple_form'

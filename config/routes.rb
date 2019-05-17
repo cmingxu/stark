@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   delete 'session/destroy', as: :logout
   get 'welcome/index', as: :dashboard
 
+  get 'mobile', to: 'welcome#mobile'
   root 'welcome#index'
 end
